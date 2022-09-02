@@ -16,13 +16,13 @@ function genDiff($pathToFile1, $pathToFile2, $format): string
 
     $diff = [];
     foreach ($keys as $key) {
-        if (!array_key_exists($key, $contentOfFile1)) {               //ключ отсутсвует в первом файле
+        if (!array_key_exists($key, $contentOfFile1)) {
             $diff[] = "+ {$key}: {$contentOfFile2[$key]}";
-        } else if (!array_key_exists($key, $contentOfFile2)) {        //ключ отсутствует во втором файле
+        } elseif (!array_key_exists($key, $contentOfFile2)) {
             $diff[] = "- {$key}: {$contentOfFile1[$key]}";
-        } else if ($contentOfFile1[$key] === $contentOfFile2[$key]) { //ключ есть и в первом, и во втором и значения равны
+        } elseif ($contentOfFile1[$key] === $contentOfFile2[$key]) {
             $diff[] = "  {$key}: {$contentOfFile1[$key]}";
-        } else {                                                      //ключ есть и в первом, и во втором и значения разные
+        } else {
             $diff[] = "- {$key}: {$contentOfFile1[$key]}";
             $diff[] = "+ {$key}: {$contentOfFile2[$key]}";
         }
