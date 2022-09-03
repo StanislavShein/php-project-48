@@ -1,11 +1,14 @@
-install: # установить зависимости
+install:
 	composer install
 
-validate: # публикация
+validate:
 	composer validate
 
-lint: # запуск линтера
+lint:
 	composer exec --verbose phpcs -- --standard=PSR12 src bin tests
 
-test: # запуск тестов
+test:
 	composer exec --verbose phpunit tests
+
+test-coverage:
+	composer exec --verbose phpunit tests -- --coverage-clover build/logs/clover.xml
