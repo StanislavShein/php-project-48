@@ -8,7 +8,9 @@ function genDiff($pathToFile1, $pathToFile2, $format): string
     $file2 = file_get_contents($pathToFile2);
 
     $contentOfFile1 = json_decode($file1, true);
+    $contentOfFile1 = makeBoolString($contentOfFile1);
     $contentOfFile2 = json_decode($file2, true);
+    $contentOfFile2 = makeBoolString($contentOfFile2);
 
     $merge = array_merge($contentOfFile1, $contentOfFile2);
     $keys = array_keys($merge);
@@ -27,7 +29,18 @@ function genDiff($pathToFile1, $pathToFile2, $format): string
             $diff[] = "+ {$key}: {$contentOfFile2[$key]}";
         }
     }
-    $result = implode("\n", $diff);
+    $result = implode("\n  ", $diff);
 
-    return "{ \n {$result} \n } \n";
+    return "{\n  {$result}\n}";
+}
+
+function makeBoolString($arr): array
+{
+    foreach ($arr as $key => $value) {
+        if (is_bool($arr[$key])) {
+            $arr[$key] = $arr[$key] ? 'true' : "false";
+        }
+    }
+
+    return $arr;
 }
