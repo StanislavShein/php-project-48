@@ -2,15 +2,12 @@
 
 namespace Hexlet\Code;
 
+use Symfony\Component\Yaml\Yaml;
+
 function genDiff($pathToFile1, $pathToFile2, $format): string
 {
-    $file1 = file_get_contents($pathToFile1);
-    $file2 = file_get_contents($pathToFile2);
-
-    $contentOfFile1 = json_decode($file1, true);
-    $contentOfFile1 = makeBoolString($contentOfFile1);
-    $contentOfFile2 = json_decode($file2, true);
-    $contentOfFile2 = makeBoolString($contentOfFile2);
+    $contentOfFile1 = getFileContent($pathToFile1);
+    $contentOfFile2 = getFileContent($pathToFile2);
 
     $merge = array_merge($contentOfFile1, $contentOfFile2);
     $keys = array_keys($merge);
@@ -43,4 +40,31 @@ function makeBoolString($arr): array
     }
 
     return $arr;
+}
+
+function getFullPathToFile(string $file): string
+{
+    if (strpos($file, '/') === 0) {
+        return $file;
+    }
+
+    return __DIR__ . '/../' . $file;
+}
+
+function getFileContent($pathToFile)
+{
+    $fullPathToFile = getFullPathToFile($pathToFile);
+    $file = file_get_contents($fullPathToFile);
+    $extension = pathinfo($fullPathToFile, PATHINFO_EXTENSION);
+    switch ($extension) {
+        case 'json':
+            $contentOfFile = json_decode($file, true);
+            break;
+        case 'yml':
+            $stdClass = Yaml::parse($file, Yaml::PARSE_OBJECT_FOR_MAP);
+            $contentOfFile = (array)$stdClass;
+            break;
+    }
+
+    return makeBoolString($contentOfFile);
 }
