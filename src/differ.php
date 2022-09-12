@@ -2,6 +2,15 @@
 
 namespace Hexlet\Code;
 
+$autoloadPath1 = __DIR__ . '/../../../autoload.php';
+$autoloadPath2 = __DIR__ . '/../vendor/autoload.php';
+
+if (file_exists($autoloadPath1)) {
+    require_once $autoloadPath1;
+} else {
+    require_once $autoloadPath2;
+}
+
 use Symfony\Component\Yaml\Yaml;
 
 function genDiff($pathToFile1, $pathToFile2, $format): string
@@ -51,10 +60,16 @@ function getFullPathToFile(string $file): string
     return __DIR__ . '/../' . $file;
 }
 
-function getFileContent($pathToFile)
+function getFileContent($pathToFile): array
 {
     $fullPathToFile = getFullPathToFile($pathToFile);
+    if (!file_exists($fullPathToFile)) {
+        throw new Exception("File does not exists");
+    }
     $file = file_get_contents($fullPathToFile);
+    if ($file === false) {
+        throw new Exception("Can't read file");
+    }
     $extension = pathinfo($fullPathToFile, PATHINFO_EXTENSION);
     switch ($extension) {
         case 'json':
@@ -64,6 +79,8 @@ function getFileContent($pathToFile)
             $stdClass = Yaml::parse($file, Yaml::PARSE_OBJECT_FOR_MAP);
             $contentOfFile = (array)$stdClass;
             break;
+        default:
+            throw new \Exception('Something went wrong...');
     }
 
     return makeBoolString($contentOfFile);
