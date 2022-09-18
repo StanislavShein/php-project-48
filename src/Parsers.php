@@ -26,17 +26,6 @@ function parse($pathToFile): array
     return $contentOfFile;
 }
 
-/*function makeBoolString(array $arr): array
-{
-    foreach ($arr as $key => $value) {
-        if (is_bool($arr[$key])) {
-            $arr[$key] = $arr[$key] ? 'true' : "false";
-        }
-    }
-
-    return $arr;
-}*/
-
 function getFullPathToFile(string $file): string
 {
     if (strpos($file, '/') === 0) {

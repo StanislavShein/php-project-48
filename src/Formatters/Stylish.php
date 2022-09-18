@@ -7,39 +7,45 @@ function format(array $data): string
     $lines = makeStylish($data);
     $result = implode("\n", $lines);
 
-    return "{\n{$result}\n}\n";
+    return "{\n{$result}\n}";
 }
 
-function makeStylish(array $diff): array
+function makeStylish(array $diffTree, int $depth = 0): array
 {
-    $result = array_map(function ($node) {
-        switch ($node['type']) {
+    $indent = str_repeat('    ', $depth);
+    $nextDepth = $depth + 1;
+    $result = array_map(function (array $node) use ($indent, $nextDepth) {
+        $type = $node['type'];
+        $key = $node['key'];
+        switch ($type) {
             case 'deleted':
-                $value = makeString($node['value']);
-                return "- {$node['key']}: {$value}";
+                $value = makeString($node['value'], $nextDepth);
+                return "{$indent}  - {$key}: {$value}/{$nextDepth}/";
 
             case 'added':
-                $value = makeString($node['value']);
-                return "+ {$node['key']}: {$value}";
+                $value = makeString($node['value'], $nextDepth);
+                return "{$indent}  + {$key}: {$value}/{$nextDepth}/";
 
             case 'unchanged':
-                $value = makeString($node['value']);
-                return "  {$node['key']}: {$value}";
+                $value = makeString($node['value'], $nextDepth);
+                return "{$indent}    {$key}: {$value}/{$nextDepth}/";
 
             case 'changed':
-                $oldValue = makeString($node['oldValue']);
-                $newValue = makeString($node['newValue']);
-                return "- {$node['key']}: {$oldValue}\n+ {$node['key']}: {$newValue}";
+                $oldValue = makeString($node['oldValue'], $nextDepth);
+                $newValue = makeString($node['newValue'], $nextDepth);
+                return "{$indent}  - {$key}: {$oldValue}/{$nextDepth}/\n{$indent}  + {$key}: {$newValue}/{$nextDepth}/";
 
             case 'nested':
-                return "тут надо что-то придумать";
+                $child = makeStylish($node['children'], $nextDepth);
+                $stringNested = implode("\n{$indent}", $child);
+                return "{$indent}    {$key}: {\n{$stringNested}\n{$indent}    }";
         }
-    }, $diff);
+    }, $diffTree);
 
     return $result;
 }
 
-function makeString($value): string
+function makeString($value, $depth): string
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -50,17 +56,27 @@ function makeString($value): string
     }
 
     if (is_array($value)) {
-        $keys = array_keys($value);
-        $result = array_map(function ($key) use ($value) {
-            $val = makeString($value[$key]);
-            $result = "{$key}: {$val}";
+        $result = arrayToString($value, $depth);
+        $indent = str_repeat('    ', $depth);
+        $modified = "{{$result}\n{$indent}}";
 
-            return $result;
-        }, $keys);
-
-        return implode('', $result);
+        return $modified;
     }
 
     return "{$value}";
+}
 
+function arrayToString($arrayValue, $depth): string
+{
+    $keys = array_keys($arrayValue);
+    $nextDepth = $depth + 1;
+    $result = array_map(function ($key) use ($arrayValue, $nextDepth) {
+        $val = makeString($arrayValue[$key], $nextDepth);
+        $indent = str_repeat('    ', $nextDepth);
+        $result = "\n{$indent}{$key}: {$val}";
+
+        return $result;
+    }, $keys);
+
+    return implode('', $result);
 }
