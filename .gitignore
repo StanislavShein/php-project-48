@@ -1,1 +1,4 @@
 /vendor/
+/build/
+/tests/.phpunit.result.cache
+.phpunit.result.cache

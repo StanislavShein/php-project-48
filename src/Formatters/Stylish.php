@@ -29,20 +29,20 @@ function makeStylish(array $diffTree, int $depth = 0): array
         switch ($type) {
             case 'deleted':
                 $value = makeString($node['value'], $nextDepth);
-                return "{$indent}  - {$key}: {$value}/{$nextDepth}/";
+                return "{$indent}  - {$key}: {$value}";
 
             case 'added':
                 $value = makeString($node['value'], $nextDepth);
-                return "{$indent}  + {$key}: {$value}/{$nextDepth}/";
+                return "{$indent}  + {$key}: {$value}";
 
             case 'unchanged':
                 $value = makeString($node['value'], $nextDepth);
-                return "{$indent}    {$key}: {$value}/{$nextDepth}/";
+                return "{$indent}    {$key}: {$value}";
 
             case 'changed':
                 $oldValue = makeString($node['oldValue'], $nextDepth);
                 $newValue = makeString($node['newValue'], $nextDepth);
-                return "{$indent}  - {$key}: {$oldValue}/{$nextDepth}/\n{$indent}  + {$key}: {$newValue}/{$nextDepth}/";
+                return "{$indent}  - {$key}: {$oldValue}\n{$indent}  + {$key}: {$newValue}";
 
             case 'nested':
                 $child = makeStylish($node['children'], $nextDepth);
