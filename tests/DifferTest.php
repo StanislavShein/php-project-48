@@ -10,25 +10,25 @@ class DifferTest extends TestCase
 {
     public function testDiffer(): void
     {
-        $pathToJson1 = 'tests/fixtures/file1.json';
-        $pathToJson2 = 'tests/fixtures/file2.json';
-        $pathToResult1 = 'tests/fixtures/result1';
-        $expected1 = file_get_contents($pathToResult1);
-        $this->assertEquals($expected1, genDiff($pathToJson1, $pathToJson2));
-        $this->assertEquals($expected1, genDiff($pathToJson1, $pathToJson2, ));
+        $jsonFile1 = 'tests/fixtures/file1.json';
+        $jsonFile2 = 'tests/fixtures/file2.json';
+        $ymlFile1 = 'tests/fixtures/file1.yml';
+        $ymlFile2 = 'tests/fixtures/file2.yml';
 
-        $pathToYml1 = 'tests/fixtures/file1.yml';
-        $pathToYml2 = 'tests/fixtures/file2.yml';
-        $this->assertEquals($expected1, genDiff($pathToYml1, $pathToYml2));
+        $pathToStylish = 'tests/fixtures/stylish';
+        $expectedStylish = file_get_contents($pathToStylish);
+        $pathToJson = 'tests/fixtures/json';
+        $expectedJson = file_get_contents($pathToJson);
+        $pathToPlain = 'tests/fixtures/plain';
+        $expectedPlain = file_get_contents($pathToPlain);
 
-        $pathToJson3 = 'tests/fixtures/file3.json';
-        $pathToJson4 = 'tests/fixtures/file4.json';
-        $pathToResult2 = 'tests/fixtures/result2';
-        $expected2 = file_get_contents($pathToResult2);
-        $this->assertEquals($expected2, genDiff($pathToJson3, $pathToJson4));
+        $this->assertEquals($expectedStylish, genDiff($jsonFile1, $jsonFile2, 'stylish'));
+        $this->assertEquals($expectedStylish, genDiff($ymlFile1, $ymlFile2, 'stylish'));
+        $this->assertEquals($expectedJson, genDiff($jsonFile1, $jsonFile2, 'json'));
+        $this->assertEquals($expectedJson, genDiff($ymlFile1, $ymlFile2, 'json'));
+        $this->assertEquals($expectedPlain, genDiff($jsonFile1, $jsonFile2, 'plain'));
+        $this->assertEquals($expectedPlain, genDiff($ymlFile1, $ymlFile2, 'plain'));
 
-        $pathToYml3 = 'tests/fixtures/file3.yml';
-        $pathToYml4 = 'tests/fixtures/file4.yml';
-        $this->assertEquals($expected2, genDiff($pathToYml3, $pathToYml4));
+
     }
 }
