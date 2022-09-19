@@ -4,7 +4,11 @@ namespace Differ\Parsers;
 
 use Symfony\Component\Yaml\Yaml;
 
-function parse($pathToFile): array
+/**
+ * @param string $pathToFile
+ * @return array<mixed>
+ */
+function parse(string $pathToFile): array
 {
     $fullPathToFile = getFullPathToFile($pathToFile);
     $file = file_get_contents($fullPathToFile);
@@ -21,11 +25,18 @@ function parse($pathToFile): array
             $stdClass = Yaml::parse($file, Yaml::PARSE_OBJECT_FOR_MAP);
             $contentOfFile = (array)$stdClass;
             break;
+
+        default:
+            throw new \Exception("Unknow file type {$extension}");
     }
 
     return $contentOfFile;
 }
 
+/**
+ * @param string $file
+ * @return string
+ */
 function getFullPathToFile(string $file): string
 {
     if (strpos($file, '/') === 0) {

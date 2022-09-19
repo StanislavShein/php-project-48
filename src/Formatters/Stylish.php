@@ -2,6 +2,10 @@
 
 namespace Differ\Formatters\Stylish;
 
+/**
+ * @param array<mixed> $data
+ * @return string
+ */
 function format(array $data): string
 {
     $lines = makeStylish($data);
@@ -10,13 +14,18 @@ function format(array $data): string
     return "{\n{$result}\n}";
 }
 
+/**
+ * @param array<mixed> $diffTree
+ * @param int $depth
+ * @return array<mixed>
+ */
 function makeStylish(array $diffTree, int $depth = 0): array
 {
     $indent = str_repeat('    ', $depth);
     $nextDepth = $depth + 1;
     $result = array_map(function (array $node) use ($indent, $nextDepth) {
-        $type = $node['type'];
         $key = $node['key'];
+        $type = $node['type'];
         switch ($type) {
             case 'deleted':
                 $value = makeString($node['value'], $nextDepth);
@@ -39,13 +48,21 @@ function makeStylish(array $diffTree, int $depth = 0): array
                 $child = makeStylish($node['children'], $nextDepth);
                 $stringNested = implode("\n{$indent}", $child);
                 return "{$indent}    {$key}: {\n{$stringNested}\n{$indent}    }";
+
+            default:
+                throw new \Exception("Unknown type {$type}");
         }
     }, $diffTree);
 
     return $result;
 }
 
-function makeString($value, $depth): string
+/**
+ * @param mixed $value
+ * @param int $depth
+ * @return string
+ */
+function makeString(mixed $value, int $depth): string
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
@@ -66,7 +83,12 @@ function makeString($value, $depth): string
     return "{$value}";
 }
 
-function arrayToString($arrayValue, $depth): string
+/**
+ * @param array<mixed> $arrayValue
+ * @param int $depth
+ * @return string
+ */
+function arrayToString(array $arrayValue, int $depth): string
 {
     $keys = array_keys($arrayValue);
     $nextDepth = $depth + 1;
