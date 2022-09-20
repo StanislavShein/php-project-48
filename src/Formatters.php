@@ -6,7 +6,12 @@ use function Differ\Formatters\Stylish\format as formatStylish;
 use function Differ\Formatters\Json\format as formatJson;
 use function Differ\Formatters\Plain\format as formatPlain;
 
-function format(array $diff, string $formatName): string
+/**
+ * @param array<mixed> $diff
+ * @param string $formatName
+ * @return string|false
+ */
+function format(array $diff, string $formatName)
 {
     switch ($formatName) {
         case 'stylish':

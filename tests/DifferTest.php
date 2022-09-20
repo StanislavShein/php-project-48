@@ -28,7 +28,5 @@ class DifferTest extends TestCase
         $this->assertEquals($expectedJson, genDiff($ymlFile1, $ymlFile2, 'json'));
         $this->assertEquals($expectedPlain, genDiff($jsonFile1, $jsonFile2, 'plain'));
         $this->assertEquals($expectedPlain, genDiff($ymlFile1, $ymlFile2, 'plain'));
-
-
     }
 }

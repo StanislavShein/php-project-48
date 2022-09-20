@@ -32,7 +32,7 @@ function makePlain(array $diffTree, string $path = ''): array
                 return "Property '{$property}' was added with value: {$value}";
 
             case 'unchanged':
-                return '';
+                break;
 
             case 'changed':
                 $oldValue = makeString($node['oldValue']);
