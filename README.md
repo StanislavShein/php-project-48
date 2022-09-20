@@ -11,19 +11,22 @@
 ```sh
 ./bin/gendiff tests/fixtures/file1.yml tests/fixtures/file2.yml
 ```
+[![asciicast](https://asciinema.org/a/23gTVq3xajTqeUifk7vCBClhm.svg)](https://asciinema.org/a/23gTVq3xajTqeUifk7vCBClhm)
 
 ## Use gendiff with format 'plain' for two json and yaml files
 ```sh
 ./bin/gendiff --format plain tests/fixtures/file1.json tests/fixtures/file2.json
 ```
 ```sh
-./bin/gendiff --format plain tests/fixtures/file1.yaml tests/fixtures/file2.yaml
+./bin/gendiff --format plain tests/fixtures/file1.yml tests/fixtures/file2.yml
 ```
+[![asciicast](https://asciinema.org/a/rgVsPYCGtU14vfBHMAJs9Hwch.svg)](https://asciinema.org/a/rgVsPYCGtU14vfBHMAJs9Hwch)
 
 ## Use gendiff with format 'json' for two json and yaml files
 ```sh
 ./bin/gendiff --format json tests/fixtures/file1.json tests/fixtures/file2.json
 ```
 ```sh
-./bin/gendiff --format json tests/fixtures/file.yaml tests/fixtures/file2.yaml
+./bin/gendiff --format json tests/fixtures/file1.yml tests/fixtures/file2.yml
 ```
+[![asciicast](https://asciinema.org/a/j1Su3w9eO5N4hgJG7EwE5C6iW.svg)](https://asciinema.org/a/j1Su3w9eO5N4hgJG7EwE5C6iW)

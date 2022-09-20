@@ -56,7 +56,7 @@ function makePlain(array $diffTree, string $path = ''): array
  * @param mixed $value
  * @return mixed
  */
-function makeString($value): string
+function makeString($value)
 {
     if (is_bool($value)) {
         return $value ? 'true' : 'false';
