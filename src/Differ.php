@@ -30,7 +30,7 @@ function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
 {
     $merge = array_merge($contentOfFile1, $contentOfFile2);
     $keys = array_keys($merge);
-    sort($keys);
+    $sortedKeys = sort($keys, fn ($left, $right) => $left <=> $right);
 
     $diff = array_map(function ($key) use ($contentOfFile1, $contentOfFile2): array {
         if (!array_key_exists($key, $contentOfFile2)) {
@@ -51,7 +51,7 @@ function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
             'key' => $key, 'type' => 'changed',
             'oldValue' => $contentOfFile1[$key], 'newValue' => $contentOfFile2[$key]
         ];
-    }, $keys);
+    }, $sortedKeys);
 
     return $diff;
 }
