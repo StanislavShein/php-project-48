@@ -71,7 +71,7 @@ function makeString($value)
     }
 
     if (is_numeric($value)) {
-        return "{value}";
+        return "{$value}";
     }
 
     return "'{$value}'";
