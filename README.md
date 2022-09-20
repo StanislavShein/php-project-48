@@ -6,21 +6,24 @@
 
 ## Use gendiff with format 'stylish' for two json and yaml files
 ```sh
-$ ./bin/gendiff tests/fixtures/file1.json tests/fixtures/file2.json
-
-$ ./bin/gendiff tests/fixtures/file1.yml tests/fixtures/file2.yml
+./bin/gendiff tests/fixtures/file1.json tests/fixtures/file2.json
+```
+```sh
+./bin/gendiff tests/fixtures/file1.yml tests/fixtures/file2.yml
 ```
 
 ## Use gendiff with format 'plain' for two json and yaml files
 ```sh
 ./bin/gendiff --format plain tests/fixtures/file1.json tests/fixtures/file2.json
-
+```
+```sh
 ./bin/gendiff --format plain tests/fixtures/file1.yaml tests/fixtures/file2.yaml
 ```
 
-## Use gendiff with format json for two json and yaml files
+## Use gendiff with format 'json' for two json and yaml files
 ```sh
 ./bin/gendiff --format json tests/fixtures/file1.json tests/fixtures/file2.json
-
+```
+```sh
 ./bin/gendiff --format json tests/fixtures/file.yaml tests/fixtures/file2.yaml
 ```
