@@ -21,7 +21,7 @@ function format(array $data): string
  */
 function makeStylish(array $diffTree, int $depth = 0): array
 {
-    $indent = str_repeat('    ', $depth);
+    $indent = getIndent($depth);
     $nextDepth = $depth + 1;
     $result = array_map(function (array $node) use ($indent, $nextDepth) {
         $key = $node['key'];
@@ -74,7 +74,7 @@ function makeString(mixed $value, int $depth): string
 
     if (is_array($value)) {
         $result = arrayToString($value, $depth);
-        $indent = str_repeat('    ', $depth);
+        $indent = getIndent($depth);
         $modified = "{{$result}\n{$indent}}";
 
         return $modified;
@@ -91,14 +91,19 @@ function makeString(mixed $value, int $depth): string
 function arrayToString(array $arrayValue, int $depth): string
 {
     $keys = array_keys($arrayValue);
-    $nextDepth = $depth + 1;
-    $result = array_map(function ($key) use ($arrayValue, $nextDepth) {
-        $val = makeString($arrayValue[$key], $nextDepth);
-        $indent = str_repeat('    ', $nextDepth);
+    $inDepth = $depth + 1;
+    $result = array_map(function ($key) use ($arrayValue, $inDepth) {
+        $val = makeString($arrayValue[$key], $inDepth);
+        $indent = getIndent($inDepth);
         $result = "\n{$indent}{$key}: {$val}";
 
         return $result;
     }, $keys);
 
     return implode('', $result);
+}
+
+function getIndent(int $repeat): string
+{
+    return str_repeat('    ', $repeat);
 }

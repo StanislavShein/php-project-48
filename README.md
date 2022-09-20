@@ -4,6 +4,29 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/c43a112720a0fab650a6/maintainability)](https://codeclimate.com/github/StanislavShein/php-project-48/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c43a112720a0fab650a6/test_coverage)](https://codeclimate.com/github/StanislavShein/php-project-48/test_coverage)
 
+## Requirements
+
+* PHP >= 7.4
+* Composer
+* Make
+
+## Setup
+
+```sh
+git clone https://github.com/StanislavShein/php-project-48.git
+```
+```sh
+cd php-project-48/
+```
+```sh
+make install
+```
+
+## Help
+```sh
+.bin/gendiff -h
+```
+
 ## Use gendiff with format 'stylish' for two json and yaml files
 ```sh
 ./bin/gendiff tests/fixtures/file1.json tests/fixtures/file2.json
