@@ -9,7 +9,7 @@ use function Differ\Formatters\format;
  * @param string $pathToFile1
  * @param string $pathToFile2
  * @param string $formatName
- * @return mixed
+ * @return string|false
  */
 function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 'stylish')
 {

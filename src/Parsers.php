@@ -11,19 +11,23 @@ use Symfony\Component\Yaml\Yaml;
 function parse(string $pathToFile): array
 {
     $fullPathToFile = getFullPathToFile($pathToFile);
+    if (!file_exists($fullPathToFile)) {
+        throw new \Exception("File doesn't exists");
+    }
     $file = file_get_contents($fullPathToFile);
+    if ($file === false) {
+        throw new \Exception("File read error");
+    }
     $extension = pathinfo($fullPathToFile, PATHINFO_EXTENSION);
     switch ($extension) {
         case 'json':
             $contentOfFile = json_decode($file, true);
             break;
         case 'yml':
-            $stdClass = Yaml::parse($file, Yaml::PARSE_OBJECT_FOR_MAP);
-            $contentOfFile = (array)$stdClass;
+            $contentOfFile = Yaml::parse($file);
             break;
         case 'yaml':
-            $stdClass = Yaml::parse($file, Yaml::PARSE_OBJECT_FOR_MAP);
-            $contentOfFile = (array)$stdClass;
+            $contentOfFile = Yaml::parse($file);
             break;
 
         default:

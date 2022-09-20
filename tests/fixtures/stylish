@@ -14,8 +14,8 @@
               - wow: 
               + wow: so much
             }
-            key: value
-          + ops: vops
+                key: value
+              + ops: vops
         }
     }
     group1: {

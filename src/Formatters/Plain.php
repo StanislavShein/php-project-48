@@ -49,12 +49,12 @@ function makePlain(array $diffTree, string $path = ''): array
         }
     }, $diffTree);
 
-    return $result;
+    return array_filter($result);
 }
 
 /**
  * @param mixed $value
- * @return string
+ * @return mixed
  */
 function makeString($value): string
 {
