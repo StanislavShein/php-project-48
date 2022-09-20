@@ -46,7 +46,7 @@ function makeStylish(array $diffTree, int $depth = 0): array
 
             case 'nested':
                 $child = makeStylish($node['children'], $nextDepth);
-                $stringNested = implode("\n{$indent}", $child);
+                $stringNested = implode("\n", $child);
                 return "{$indent}    {$key}: {\n{$stringNested}\n{$indent}    }";
 
             default:
