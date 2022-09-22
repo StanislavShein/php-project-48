@@ -5,20 +5,12 @@ namespace Differ\Parsers;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * @param string $pathToFile
+ * @param string $file
+ * @param string $extension
  * @return array<mixed>
  */
-function parse(string $pathToFile): array
+function parse(string $file, string $extension): array
 {
-    $fullPathToFile = getFullPathToFile($pathToFile);
-    if (!file_exists($fullPathToFile)) {
-        throw new \Exception("File doesn't exists");
-    }
-    $file = file_get_contents($fullPathToFile);
-    if ($file === false) {
-        throw new \Exception("File read error");
-    }
-    $extension = pathinfo($fullPathToFile, PATHINFO_EXTENSION);
     switch ($extension) {
         case 'json':
             $contentOfFile = json_decode($file, true);
@@ -35,17 +27,4 @@ function parse(string $pathToFile): array
     }
 
     return $contentOfFile;
-}
-
-/**
- * @param string $file
- * @return string
- */
-function getFullPathToFile(string $file): string
-{
-    if (strpos($file, '/') === 0) {
-        return $file;
-    }
-
-    return __DIR__ . '/../' . $file;
 }
