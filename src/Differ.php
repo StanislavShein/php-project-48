@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-use function Differ\Filereader\readfile;
+use function Differ\Filereader\readFile;
 use function Differ\Parsers\parse;
 use function Differ\Formatters\format;
 use function Functional\sort;
@@ -36,40 +36,45 @@ function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
     $sortedKeys = sort($keys, fn ($left, $right) => $left <=> $right);
 
     $diff = array_map(function ($key) use ($contentOfFile1, $contentOfFile2): array {
-        if (!array_key_exists($key, $contentOfFile2)) {
-            return [
-                'key' => $key,
-                'type' => 'deleted',
-                'value' => $contentOfFile1[$key]
-            ];
-        }
-        if (!array_key_exists($key, $contentOfFile1)) {
+        if (array_key_exists($key, $contentOfFile1)) {
+            $value1 = $contentOfFile1[$key];
+        } else {
+            $value2 = $contentOfFile2[$key];
             return [
                 'key' => $key,
                 'type' => 'added',
-                'value' => $contentOfFile2[$key]
+                'value' => $value2
             ];
         }
-        if ($contentOfFile1[$key] === $contentOfFile2[$key]) {
+        if (array_key_exists($key, $contentOfFile2)) {
+            $value2 = $contentOfFile2[$key];
+        } else {
+            return [
+                'key' => $key,
+                'type' => 'deleted',
+                'value' => $value1
+            ];
+        }
+        if ($value1 === $value2) {
             return [
                 'key' => $key,
                 'type' => 'unchanged',
-                'value' => $contentOfFile1[$key]
+                'value' => $value1
             ];
         }
-        if (is_array($contentOfFile1[$key]) && is_array($contentOfFile2[$key])) {
+        if (is_array($value1) && is_array($value2)) {
             return [
                 'key' => $key,
                 'type' => 'nested',
-                'children' => buildDiffTree($contentOfFile1[$key], $contentOfFile2[$key])
+                'children' => buildDiffTree($value1, $value2)
             ];
         }
 
         return [
             'key' => $key,
             'type' => 'changed',
-            'oldValue' => $contentOfFile1[$key],
-            'newValue' => $contentOfFile2[$key]
+            'oldValue' => $value1,
+            'newValue' => $value2
         ];
     }, $sortedKeys);
 
