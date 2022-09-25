@@ -4,7 +4,7 @@ namespace Differ\Formatters\Json;
 
 /**
  * @param array<mixed> $data
- * @return string|false
+ * @return mixed
  */
 function format(array $data)
 {

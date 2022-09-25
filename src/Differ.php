@@ -11,7 +11,7 @@ use function Functional\sort;
  * @param string $pathToFile1
  * @param string $pathToFile2
  * @param string $formatName
- * @return string|false
+ * @return string
  */
 function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 'stylish')
 {
@@ -31,28 +31,25 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 
  */
 function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
 {
-    $merge = array_merge($contentOfFile1, $contentOfFile2);
-    $keys = array_keys($merge);
+    $combinedData = array_merge($contentOfFile1, $contentOfFile2);
+    $keys = array_keys($combinedData);
     $sortedKeys = sort($keys, fn ($left, $right) => $left <=> $right);
 
     $diff = array_map(function ($key) use ($contentOfFile1, $contentOfFile2): array {
-        if (array_key_exists($key, $contentOfFile1)) {
-            $value1 = $contentOfFile1[$key];
-        } else {
-            $value2 = $contentOfFile2[$key];
-            return [
-                'key' => $key,
-                'type' => 'added',
-                'value' => $value2
-            ];
-        }
-        if (array_key_exists($key, $contentOfFile2)) {
-            $value2 = $contentOfFile2[$key];
-        } else {
+        $value1 = $contentOfFile1[$key] ?? null;
+        $value2 = $contentOfFile2[$key] ?? null;
+        if (!array_key_exists($key, $contentOfFile2)) {
             return [
                 'key' => $key,
                 'type' => 'deleted',
                 'value' => $value1
+            ];
+        }
+        if (!array_key_exists($key, $contentOfFile1)) {
+            return [
+                'key' => $key,
+                'type' => 'added',
+                'value' => $value2
             ];
         }
         if ($value1 === $value2) {

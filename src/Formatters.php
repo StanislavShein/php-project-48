@@ -9,7 +9,7 @@ use function Differ\Formatters\Plain\format as formatPlain;
 /**
  * @param array<mixed> $diff
  * @param string $formatName
- * @return string|false
+ * @return string
  */
 function format(array $diff, string $formatName)
 {

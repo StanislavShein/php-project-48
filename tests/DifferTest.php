@@ -19,7 +19,10 @@ class DifferTest extends TestCase
      */
     public function testDiffer($expected, $file1, $file2, $format): void
     {
-        $this->assertEquals($expected, genDiff($file1, $file2, $format));
+        $fullPathToExpected = $this->getFullPath($expected);
+        $fullPathToFile1 = $this->getFullPath($file1);
+        $fullPathToFile2 = $this->getFullPath($file2);
+        $this->assertStringEqualsFile($fullPathToExpected, genDiff($fullPathToFile1, $fullPathToFile2, $format));
     }
 
     /**
@@ -29,41 +32,50 @@ class DifferTest extends TestCase
     {
         return [
             'json file to stylish format' => [
-                file_get_contents('tests/fixtures/stylish'),
-                'tests/fixtures/file1.json',
-                'tests/fixtures/file2.json',
+                'stylish',
+                'file1.json',
+                'file2.json',
                 'stylish'
             ],
             'json file to json format' => [
-                file_get_contents('tests/fixtures/json'),
-                'tests/fixtures/file1.json',
-                'tests/fixtures/file2.json',
+                'json',
+                'file1.json',
+                'file2.json',
                 'json'
             ],
             'json file to plain format' => [
-                file_get_contents('tests/fixtures/plain'),
-                'tests/fixtures/file1.json',
-                'tests/fixtures/file2.json',
+                'plain',
+                'file1.json',
+                'file2.json',
                 'plain'
             ],
             'yaml file to stylish format' => [
-                file_get_contents('tests/fixtures/stylish'),
-                'tests/fixtures/file1.yml',
-                'tests/fixtures/file2.yml',
+                'stylish',
+                'file1.yml',
+                'file2.yml',
                 'stylish'
             ],
             'yaml file to json format' => [
-                file_get_contents('tests/fixtures/json'),
-                'tests/fixtures/file1.yml',
-                'tests/fixtures/file2.yml',
+                'json',
+                'file1.yml',
+                'file2.yml',
                 'json'
             ],
             'yaml file to plain format' => [
-                file_get_contents('tests/fixtures/plain'),
-                'tests/fixtures/file1.yml',
-                'tests/fixtures/file2.yml',
+                'plain',
+                'file1.yml',
+                'file2.yml',
                 'plain'
             ]
         ];
+    }
+
+    /**
+     * @param string $file
+     * @return string
+     */
+    public function getFullPath(string $file): string
+    {
+        return __DIR__ . "/fixtures/" . $file;
     }
 }

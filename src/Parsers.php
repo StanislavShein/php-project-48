@@ -13,18 +13,11 @@ function parse(string $file, string $extension): array
 {
     switch ($extension) {
         case 'json':
-            $contentOfFile = json_decode($file, true);
-            break;
+            return json_decode($file, true);
         case 'yml':
-            $contentOfFile = Yaml::parse($file);
-            break;
         case 'yaml':
-            $contentOfFile = Yaml::parse($file);
-            break;
-
+            return Yaml::parse($file);
         default:
             throw new \Exception("Unknow file type {$extension}");
     }
-
-    return $contentOfFile;
 }

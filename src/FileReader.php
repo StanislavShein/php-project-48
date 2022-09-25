@@ -1,23 +1,23 @@
 <?php
 
-namespace Differ\Filereader;
+namespace Differ\FileReader;
 
 /**
- * @param string $pathToFile
+ * @param string $path
  * @return array<mixed>
  */
-function readFile(string $pathToFile): array
+function readFile(string $path): array
 {
-    $fullPathToFile = getFullPathToFile($pathToFile);
-    if (!file_exists($fullPathToFile)) {
+    $fullPath = getFullPath($path);
+    if (!file_exists($fullPath)) {
         throw new \Exception("File doesn't exists");
     }
-    $file = file_get_contents($fullPathToFile);
+    $file = file_get_contents($fullPath);
     if ($file === false) {
         throw new \Exception("File read error");
     }
 
-    $extension = pathinfo($fullPathToFile, PATHINFO_EXTENSION);
+    $extension = pathinfo($fullPath, PATHINFO_EXTENSION);
 
     return [$file, $extension];
 }
@@ -26,7 +26,7 @@ function readFile(string $pathToFile): array
  * @param string $file
  * @return string
  */
-function getFullPathToFile(string $file): string
+function getFullPath(string $file): string
 {
     if (strpos($file, '/') === 0) {
         return $file;
