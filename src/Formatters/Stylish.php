@@ -26,17 +26,17 @@ function makeStylish(array $diffTree, int $depth = 0): array
     $result = array_map(function (array $node) use ($indent, $nextDepth) {
         $key = $node['key'];
         $type = $node['type'];
+        if (array_key_exists('value', $node)) {
+            $value = makeString($node['value'], $nextDepth);
+        }
         switch ($type) {
             case 'deleted':
-                $value = makeString($node['value'], $nextDepth);
                 return "{$indent}  - {$key}: {$value}";
 
             case 'added':
-                $value = makeString($node['value'], $nextDepth);
                 return "{$indent}  + {$key}: {$value}";
 
             case 'unchanged':
-                $value = makeString($node['value'], $nextDepth);
                 return "{$indent}    {$key}: {$value}";
 
             case 'changed':
@@ -45,8 +45,7 @@ function makeStylish(array $diffTree, int $depth = 0): array
                 return "{$indent}  - {$key}: {$oldValue}\n{$indent}  + {$key}: {$newValue}";
 
             case 'nested':
-                $child = makeStylish($node['children'], $nextDepth);
-                $stringNested = implode("\n", $child);
+                $stringNested = implode("\n", makeStylish($node['children'], $nextDepth));
                 return "{$indent}    {$key}: {\n{$stringNested}\n{$indent}    }";
 
             default:
