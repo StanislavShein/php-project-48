@@ -2,7 +2,7 @@
 
 namespace Differ\Differ;
 
-use function Differ\Filereader\readFile;
+use function Differ\FileReader\readFile;
 use function Differ\Parsers\parse;
 use function Differ\Formatters\format;
 use function Functional\sort;
