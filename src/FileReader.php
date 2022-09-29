@@ -12,6 +12,7 @@ function readFile(string $path): array
     if (!file_exists($fullPath)) {
         throw new \Exception("File doesn't exists");
     }
+
     $file = file_get_contents($fullPath);
     if ($file === false) {
         throw new \Exception("File read error");

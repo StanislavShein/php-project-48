@@ -17,8 +17,10 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 
 {
     [$contentOfFile1, $extension1] = readFile($pathToFile1);
     [$contentOfFile2, $extension2] = readFile($pathToFile2);
+
     $data1 = parse($contentOfFile1, $extension1);
     $data2 = parse($contentOfFile2, $extension2);
+
     $diff = buildDiffTree($data1, $data2);
 
     return format($diff, $formatName);
@@ -38,6 +40,7 @@ function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
     $diff = array_map(function ($key) use ($contentOfFile1, $contentOfFile2): array {
         $value1 = $contentOfFile1[$key] ?? null;
         $value2 = $contentOfFile2[$key] ?? null;
+
         if (!array_key_exists($key, $contentOfFile2)) {
             return [
                 'key' => $key,
@@ -45,6 +48,7 @@ function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
                 'value' => $value1
             ];
         }
+
         if (!array_key_exists($key, $contentOfFile1)) {
             return [
                 'key' => $key,
@@ -52,6 +56,7 @@ function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
                 'value' => $value2
             ];
         }
+
         if ($value1 === $value2) {
             return [
                 'key' => $key,
@@ -59,6 +64,7 @@ function buildDiffTree(array $contentOfFile1, array $contentOfFile2): array
                 'value' => $value1
             ];
         }
+
         if (is_array($value1) && is_array($value2)) {
             return [
                 'key' => $key,

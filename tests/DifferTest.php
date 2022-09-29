@@ -19,9 +19,9 @@ class DifferTest extends TestCase
      */
     public function testDiffer($expected, $file1, $file2, $format): void
     {
-        $fullPathToExpected = $this->getFullPath($expected);
-        $fullPathToFile1 = $this->getFullPath($file1);
-        $fullPathToFile2 = $this->getFullPath($file2);
+        $fullPathToExpected = $this->getFullPathToFixture($expected);
+        $fullPathToFile1 = $this->getFullPathToFixture($file1);
+        $fullPathToFile2 = $this->getFullPathToFixture($file2);
         $this->assertStringEqualsFile($fullPathToExpected, genDiff($fullPathToFile1, $fullPathToFile2, $format));
     }
 
@@ -74,7 +74,7 @@ class DifferTest extends TestCase
      * @param string $file
      * @return string
      */
-    public function getFullPath(string $file): string
+    public function getFullPathToFixture(string $file): string
     {
         return __DIR__ . "/fixtures/" . $file;
     }

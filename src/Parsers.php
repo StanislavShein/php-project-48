@@ -6,18 +6,18 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * @param string $file
- * @param string $extension
+ * @param string $type
  * @return array<mixed>
  */
-function parse(string $file, string $extension): array
+function parse(string $file, string $type): array
 {
-    switch ($extension) {
+    switch ($type) {
         case 'json':
             return json_decode($file, true);
         case 'yml':
         case 'yaml':
             return Yaml::parse($file);
         default:
-            throw new \Exception("Unknow file type {$extension}");
+            throw new \Exception("Unknow file type {$type}");
     }
 }
