@@ -55,4 +55,4 @@ make install
 ```sh
 ./bin/gendiff --format json tests/fixtures/file1.yml tests/fixtures/file2.yml
 ```
-[![asciicast](https://asciinema.org/a/j1Su3w9eO5N4hgJG7EwE5C6iW.svg)](https://asciinema.org/a/j1Su3w9eO5N4hgJG7EwE5C6iW)
+[![asciicast](https://asciinema.org/a/G1tO54wDmpt141ntOuwiZA8mY.svg)](https://asciinema.org/a/G1tO54wDmpt141ntOuwiZA8mY)

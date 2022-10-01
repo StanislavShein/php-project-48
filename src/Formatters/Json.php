@@ -8,5 +8,5 @@ namespace Differ\Formatters\Json;
  */
 function format(array $data)
 {
-    return json_encode($data);
+    return json_encode($data, JSON_PRETTY_PRINT);
 }

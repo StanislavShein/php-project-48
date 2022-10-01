@@ -75,29 +75,27 @@ function makeString(mixed $value, int $depth): string
     if (is_array($value)) {
         $result = arrayToString($value, $depth);
         $indent = getIndent($depth);
-        $modified = "{{$result}\n{$indent}}";
 
-        return $modified;
+        return "{{$result}\n{$indent}}";
     }
 
     return "{$value}";
 }
 
 /**
- * @param array<mixed> $arrayValue
+ * @param array<mixed> $value
  * @param int $depth
  * @return string
  */
-function arrayToString(array $arrayValue, int $depth): string
+function arrayToString(array $value, int $depth): string
 {
-    $keys = array_keys($arrayValue);
+    $keys = array_keys($value);
     $inDepth = $depth + 1;
-    $result = array_map(function ($key) use ($arrayValue, $inDepth) {
-        $val = makeString($arrayValue[$key], $inDepth);
+    $result = array_map(function ($key) use ($value, $inDepth) {
+        $val = makeString($value[$key], $inDepth);
         $indent = getIndent($inDepth);
-        $result = "\n{$indent}{$key}: {$val}";
 
-        return $result;
+        return "\n{$indent}{$key}: {$val}";
     }, $keys);
 
     return implode('', $result);
